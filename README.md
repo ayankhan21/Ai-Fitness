@@ -2,7 +2,7 @@
 
 This repository is completely added with topics which I am preparing / revising for to crack Tech Interviews.
 
-For anyone interested in the repository in the future do know that having basic understanding of JavaScript would be usefull to learning this concepts as quickly as possible.
+For anyone interested in the repository in the future do know that having basic understanding of JavaScript would be useful in learning these concepts as quickly as possible.
 
 # Contents / Topics :
 1. Vanilla JavaScript - Concepts such as implementing Data Structures, MVP Concepts in JavaScript will be added (Promises , iterators etc).
