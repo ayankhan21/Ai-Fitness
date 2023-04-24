@@ -4,16 +4,14 @@ import fs from 'fs'
 import dotenv from 'dotenv'
 dotenv.config()
 
-// const api_key = process.env.API_KEY;
-// console.log(api_key)
 
-const configuration = new Configuration({
-    apiKey:process.env.API_KEY,
-})
+// const configuration = new Configuration({
+//     apiKey:'',
+// })
 
 const openai = new OpenAIApi(configuration);
 // const prompt = 'A yellow dress on a maniquin with gold and silver patterns on it ';
-const prompt = 'A BLACK BODYCON DRESS'
+const prompt = 'Breaking bad'
 
 const result = await openai.createImage({
     prompt,
@@ -32,4 +30,5 @@ if (!fs.existsSync(imgDir)) {
   fs.mkdirSync(imgDir);
 }
 let now = new Date;
-writeFileSync(`${imgDir}/${now.getMinutes()}.png`, buffer);
+// writeFileSync(`${imgDir}/${now.getMinutes()}.png`, buffer);
+writeFileSync(`${imgDir}/123.png`, buffer);
