@@ -1,51 +1,50 @@
-import React, { useState } from "react";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import React, { useState, useEffect } from "react";
+import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
-function UserSelections(props) {
+function UserSelections({ message, setMessage, topic, topics }) {
   const [selections, setSelections] = useState([]);
-  const [formats, setFormats] = useState(['bold', 'italic']);
-  
-    const handleFormat = (event, newFormats) => {
-        setFormats(newFormats);
-        if(selections.includes(event.target.value)){
-            setSelections(selections.filter((e)=>e !== event.target.value))
-        }else{
-            setSelections([...selections,event.target.value])
-        }
-      };
+  const [formats, setFormats] = useState(["bold", "italic"]);
+
+  useEffect(() => {
+    setMessage(message + " " +  selections);
+  }, [selections]);
+
+  const handleFormat = (event, newFormats) => {
+    setFormats(newFormats);
+
+    if (selections.includes(event.target.value)) {
+      setSelections((prevSelections) =>
+        prevSelections.filter((e) => e !== event.target.value)
+      );
+    } else {
+      setSelections((prevSelections) => [
+        ...prevSelections,
+        event.target.value,
+      ]);
+    }
+  };
+
+  const handleReset = () => {
+    setSelections([]);
+    setFormats(["bold", "italic"]);
+  };
 
   return (
     <div className="options">
-    <h2>{props.topic}</h2>
+      <h2>{topic}</h2>
       <ToggleButtonGroup
-      color="primary"
-      value={formats}
-      onChange={handleFormat}
-      aria-label="text formatting">
-        {/* <ToggleButton value="hello1" aria-label="bold">
-          hello 1
-        </ToggleButton>
-        <ToggleButton value="hello2" aria-label="italic">
-          hello 2
-        </ToggleButton>
-        <ToggleButton value="hello3" aria-label="underlined">
-          hello 3
-        </ToggleButton>
-        <ToggleButton value="hello4" aria-label="color" >
-          hello 4
-        </ToggleButton> */}
-        {
-            props.topics.map((e)=>{
-                return(<ToggleButton value={e} aria-label="italic">
-          {e}
-        </ToggleButton>)
-            })
-        }
+        color="primary"
+        value={formats}
+        onChange={handleFormat}
+        aria-label="text formatting"
+        className="selections"
+      >
+        {topics.map((e) => (
+          <ToggleButton className="option" key={e} value={e} aria-label="italic">
+            {e}
+          </ToggleButton>
+        ))}
       </ToggleButtonGroup>
-      {selections.map((e)=>{
-        return <p>{e}</p>
-      })}
     </div>
   );
 }

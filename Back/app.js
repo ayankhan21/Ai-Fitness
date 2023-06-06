@@ -7,9 +7,10 @@ dotenv.config()
 import bodyParser from "body-parser";
 
 const app = Express();
+const key =  process.env.API_KEY;
 const apiUrl = process.env.API_URL;
 
-console.log(apiUrl)
+// console.log(key)
 // Parse JSON request bodies
 app.use(bodyParser.json());
 app.use(cors())
@@ -17,8 +18,10 @@ app.use(cors())
 
 
 const openai = new OpenAIApi(new Configuration({
-  apiKey:process.env.API_KEY,
+  apiKey:"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",
 }))
+
+
 
 
 // const prompt = 'A ship sailing through a river in deep space'
@@ -52,10 +55,6 @@ function chatGpt(userRequest) {
   let result;
   return new Promise((resolve, reject) => {
 
-    // openai.createImage({
-      
-    // })
-
     openai.createChatCompletion({
           model:"gpt-3.5-turbo",
           messages:[{role:"user", content:userRequest}]
@@ -78,7 +77,9 @@ app.get('/',(req,res)=>{
 app.post('/', async (req, res) => {
   try {
     const userRequest = req.body.data;
-    const result = await chatGpt(userRequest);
+    console.log(userRequest)
+    const finalRequest = userRequest + "I want the prompt to be separated into workouts numbered so that i can display them in paragraphs";
+    const result = await chatGpt(finalRequest);
     res.send(result);
   } catch (error) {
     console.log(error);

@@ -1,33 +1,57 @@
 import "./App.css";
-import axios from 'axios'
-import React, { useState, useEffect } from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import UserSelections from "./Components/UserSelections";
-
+import GifDisplay from "./Components/GifsDisplay";
+import Intro from "./Components/Intro";
+import Loading from "./Components/Loading";
 
 function App() {
   const [message, setMessage] = useState("");
-  const [result,setResult] = useState("");
-  const [loading,setLoading] = useState(null)
-  const [topic1,setTopic1] = useState(['JavaScript','Python','Java','C++','Swift']);
-  const [topc2,setTopic2] = useState(['Counter','Stop Watch','Fibonacci'])
+  const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(null);
+  const [reset, setReset] = useState(false);
+  const level = ["Beginner", "Intermediate", "Advanced"];
+  const muscle = ["CHEST", "BACK", "SHOULDERS", "LEGS", "ABS", "ARMS"];
+  const duration = [
+    "Short (15-20 minutes)",
+    "Meduim (30-45 minutes)",
+    "Long (45+ minutes) ",
+  ];
+  const equipment = [
+    "None (Body weight)",
+    "Dumbbells",
+    "Barbell",
+    "Resistance Bands",
+    "Kettle bell",
+    "Cable Machine",
+    "Complete Gym",
+  ];
+  const workoutType = [
+    "Cardio",
+    "Strength Training",
+    "Weigth Training",
+    "Yoga",
+    "Pilates",
+  ];
+  const intensity = ["Low intensity", "Medium intensity ", "High intensity"];
 
-  useEffect(()=>{
-      
-  },[message])
+  useEffect(() => {
+    console.log(message);
+  }, [message]);
 
-
-  const handleMessage = (e)=>{
-      setMessage(e.target.value)
-  }
+  const handleMessage = (e) => {
+    setMessage(e.target.value);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // const inputValue = event.target.elements.message.value;
-    // setMessage(inputValue);
     setLoading(true);
     try {
-      console.log(message,"USER MESSAGE")
-      const response = await axios.post('http://localhost:8000', { data: message });
+      console.log(message, "USER MESSAGE");
+      const response = await axios.post("http://localhost:8000", {
+        data: message,
+      });
       setResult(response.data);
     } catch (error) {
       console.log(error);
@@ -35,26 +59,84 @@ function App() {
     setLoading(false);
   };
 
-  
+  const handleReset = () => {
+    setReset(!reset);
+  };
+
+  const startsWithNumber = (str) => {
+    return /^\d/.test(str);
+  };
 
   return (
-    <div className="App">
-      <h1>YOUR VERY OWN CHATGPT INTEGRATION</h1>
-      <UserSelections topic={'FIRST'} topics = {topic1}  />
-      <UserSelections topic={'SECOND'} topics={topc2} />
-      {/* <UserSelections topic={'THIRD'} />
-      <UserSelections topic={'FOURTH'} />
-      <UserSelections topic={'FIFTH'} /> */}
-      <form onSubmit={handleSubmit} action="">
-        <input type="text" onChange={handleMessage} name="message"/>
-        <button  type="submit">Get</button>
-      </form>
+    <div className="main">
+      <Intro/>
+      <UserSelections
+        topic={"WORKOUT TYPE"}
+        setMessage={setMessage}
+        message={message}
+        topics={workoutType}
+        reset={reset}
+      />
+      <UserSelections
+        topic={"FITNESS LEVEL"}
+        setMessage={setMessage}
+        message={message}
+        topics={level}
+        reset={reset}
+      />
+      <UserSelections
+        topic={"MUSCLE GROUP"}
+        setMessage={setMessage}
+        message={message}
+        topics={muscle}
+        reset={reset}
+      />
+      <UserSelections
+        topic={"DURATION"}
+        setMessage={setMessage}
+        message={message}
+        topics={duration}
+        reset={reset}
+      />
+      <UserSelections
+        topic={"EQUIPMENT"}
+        setMessage={setMessage}
+        message={message}
+        topics={equipment}
+        reset={reset}
+      />
+      
+      <UserSelections
+        topic={"INTENSITY"}
+        setMessage={setMessage}
+        message={message}
+        topics={intensity}
+        reset={reset}
+      />
+      {/* <button onClick={handleReset}>Reset</button> */}
+        <button onClick={handleSubmit} type="submit">Get</button>
       <p>{message}</p>
-      {loading && <div>Loading...</div>}
-      {result && <div>{result}</div>}
+      {loading && <div>
+        <Loading/>
+      </div>}
+      {result && (
+        <div className="result">
+          {result.split("\n").map((paragraph, index) => {
+            if (startsWithNumber(paragraph)) {
+              return (
+                <div className="exercise-name" key={index}>
+                  <strong>{paragraph}</strong>
+                </div>
+              );
+            } else {
+              return <p key={index}>{paragraph}</p>;
+            }
+          })}
+        </div>
+      )}
+      {/* <GifDisplay message={message} /> */}
     </div>
   );
 }
 
 export default App;
-

@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Alkatra&family=Bodoni+Moda:ital,wght@1,500&family=Roboto:wght@400;900&display=swap');
+
+body {
+  background-color: #282a2c;
+  margin: 0;
+  padding: 0;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+.intro {
+    width: 98vw;
+    height: 100vh;
+  text-align: center;
+}
+.loading {
+  width: 20vw;
+  height: 20vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: aliceblue; */
+}
+.loadingIcons {
+  width: 200px; /* Set the desired width */
+  height: auto;
+  image-rendering: auto;
+}
+h2 {
+  background-color: #e0fe10;
+  padding: 25px;
+  border-radius: 15px;
+  border: 2px solid white;
+  box-shadow: 5px 5px  grey;
+  color: #282a2c;
+}
+.options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: antiquewhite;
+}
+.selections {
+  display: flex;
+  gap: 30px;
+}
+.option {
+  border-radius: 25px;
+  background-color: #e0fe10;
+}
+.result {
+  width: 65vw;
+  font-size: larger;
+}
+.paragraph {
+  border: 2px solid black;
+  background-color: aquamarine;
+}
+.exercise-name {
+  font-family: 'Alkatra', cursive;
+  font-family: 'Bodoni Moda', serif;
+  font-family: 'Roboto', sans-serif;
+}
