@@ -18,6 +18,7 @@ function UserSelections({ message, setMessage, topic, topics }) {
       );
     } else {
       setSelections((prevSelections) => [
+        topic,
         ...prevSelections,
         event.target.value,
       ]);

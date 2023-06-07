@@ -6,11 +6,10 @@ dotenv.config()
 
 
 const configuration = new Configuration({
-    apiKey:'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',
+    apiKey:process.env.API_KEY,
 })
 
 const openai = new OpenAIApi(configuration);
-// const prompt = 'A yellow dress on a maniquin with gold and silver patterns on it ';
 const prompt = 'Leg Press'
 
 const result = await openai.createImage({

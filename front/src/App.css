@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Alkatra&family=Bodoni+Moda:ital,wght@1,500&family=Roboto:wght@400;900&display=swap');
-
+@font-face {
+  font-family: 'Ankh Sanctuary';
+  src: url('./fonts/AnkhSanctuary-nROx4.ttf') format('opentype');
+}
+@font-face {
+  font-family: 'Queensides';
+  src: url('./fonts/QueensidesMedium-x30zV.ttf') format('opentype');
+}
 body {
   background-color: #282a2c;
   margin: 0;
@@ -12,10 +19,41 @@ body {
   justify-content: center;
   color: white;
 }
+h1 {
+  font-family: 'Ankh Sanctuary';
+  font-size: 8rem;
+  text-transform: capitalize;
+  color: #e0fe10;
+  text-shadow: 4px 4px 4px rgb(23, 22, 22);
+}
+p {
+  font-size: 1.5em;
+  font-family: 'Queensides';
+  font-family: 'Ankh Sanctuary';
+  text-transform: capitalize;
+  color: #e0fe10;
+  text-shadow: 2px 2px 2px white;
+}
+.text {
+  width: 50vw;
+}
 .intro {
-    width: 98vw;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 98vw;
+  height: 100vh;
   text-align: center;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), #282a2c),
+    url('./assets/karsten-winegeart-0Wra5YYVQJE-unsplash.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.intro img{
+  width: 50px;
+  height: 50px;
 }
 .loading {
   width: 20vw;
@@ -23,10 +61,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-color: aliceblue; */
 }
 .loadingIcons {
-  width: 200px; /* Set the desired width */
+  width: 200px; 
   height: auto;
   image-rendering: auto;
 }
@@ -35,7 +72,7 @@ h2 {
   padding: 25px;
   border-radius: 15px;
   border: 2px solid white;
-  box-shadow: 5px 5px  grey;
+  box-shadow: 5px 5px grey;
   color: #282a2c;
 }
 .options {
@@ -46,7 +83,7 @@ h2 {
   color: antiquewhite;
 }
 .selections {
-  display: flex;
+  display: grid;
   gap: 30px;
 }
 .option {

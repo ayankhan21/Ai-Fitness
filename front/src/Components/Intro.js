@@ -1,14 +1,21 @@
-import React from 'react'
-
+import React from "react";
+import "../App.css";
+import arrow from "../assets/icons8-down-unscreen.gif";
 const Intro = () => {
   return (
-    <div className='intro'>
-        <h1>AI FITNESS</h1>
-        <h1>INTRO TO COME HERE</h1>
-        <h1>Some random images here</h1>
-        <h1>A short brief how to use the app</h1>
+    <div className="intro">
+      <h1>Ai Fitness</h1>
+      <div className="text">
+        <p>Transform your workouts with AI fitness.</p>
+        <p>
+          Answer a questionnaire and get personalized workouts based on your
+          fitness level, goals, and equipment.
+        </p>
+        <p>Experience fitness redefined.</p>
+      </div>
+      <img src={arrow} alt="" />
     </div>
-  )
-}
+  );
+};
 
-export default Intro
+export default Intro;

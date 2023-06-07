@@ -5,6 +5,9 @@ import UserSelections from "./Components/UserSelections";
 import GifDisplay from "./Components/GifsDisplay";
 import Intro from "./Components/Intro";
 import Loading from "./Components/Loading";
+import "./App.css";
+import { ParallaxProvider } from "react-scroll-parallax";
+import { Parallax } from "react-scroll-parallax";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -45,18 +48,22 @@ function App() {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-    try {
-      console.log(message, "USER MESSAGE");
-      const response = await axios.post("http://localhost:8000", {
-        data: message,
-      });
-      setResult(response.data);
-    } catch (error) {
-      console.log(error);
+    if (message === "") {
+      setMessage("Please select a workout");
+    } else {
+      event.preventDefault();
+      setLoading(true);
+      try {
+        console.log(message, "USER MESSAGE");
+        const response = await axios.post("http://localhost:8000", {
+          data: message,
+        });
+        setResult(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleReset = () => {
@@ -67,75 +74,101 @@ function App() {
     return /^\d/.test(str);
   };
 
+  const highlightYouTubeLinks = (text) => {
+    const linkRegex = /(https?:\/\/(?:www\.)?youtube\.com\/watch\?v=[\w-]+)/gi;
+    return text.replace(linkRegex, (match) => {
+      return `<a href="${match}" target="_blank" rel="noopener noreferrer">${match}</a>`;
+    });
+  };
+
+  const renderResult = () => {
+    const paragraphs = result.split("\n");
+    const resultElements = paragraphs.map((paragraph, index) => {
+      if (startsWithNumber(paragraph)) {
+        return (
+          <div className="exercise-name" key={index}>
+            <strong>{paragraph}</strong>
+          </div>
+        );
+      } else {
+        const highlightedParagraph = highlightYouTubeLinks(paragraph);
+        return (
+          <p
+            key={index}
+            dangerouslySetInnerHTML={{ __html: highlightedParagraph }}
+          />
+        );
+      }
+    });
+    return resultElements;
+  };
+
   return (
-    <div className="main">
-      <Intro/>
-      <UserSelections
-        topic={"WORKOUT TYPE"}
-        setMessage={setMessage}
-        message={message}
-        topics={workoutType}
-        reset={reset}
-      />
-      <UserSelections
-        topic={"FITNESS LEVEL"}
-        setMessage={setMessage}
-        message={message}
-        topics={level}
-        reset={reset}
-      />
-      <UserSelections
-        topic={"MUSCLE GROUP"}
-        setMessage={setMessage}
-        message={message}
-        topics={muscle}
-        reset={reset}
-      />
-      <UserSelections
-        topic={"DURATION"}
-        setMessage={setMessage}
-        message={message}
-        topics={duration}
-        reset={reset}
-      />
-      <UserSelections
-        topic={"EQUIPMENT"}
-        setMessage={setMessage}
-        message={message}
-        topics={equipment}
-        reset={reset}
-      />
-      
-      <UserSelections
-        topic={"INTENSITY"}
-        setMessage={setMessage}
-        message={message}
-        topics={intensity}
-        reset={reset}
-      />
-      {/* <button onClick={handleReset}>Reset</button> */}
-        <button onClick={handleSubmit} type="submit">Get</button>
-      <p>{message}</p>
-      {loading && <div>
-        <Loading/>
-      </div>}
-      {result && (
-        <div className="result">
-          {result.split("\n").map((paragraph, index) => {
-            if (startsWithNumber(paragraph)) {
-              return (
-                <div className="exercise-name" key={index}>
-                  <strong>{paragraph}</strong>
-                </div>
-              );
-            } else {
-              return <p key={index}>{paragraph}</p>;
-            }
-          })}
+    <ParallaxProvider>
+      <Parallax>
+        <div className="main">
+          <Intro />
+          <div className="selections">
+            <UserSelections
+              topic={"WORKOUT TYPE"}
+              setMessage={setMessage}
+              message={message}
+              topics={workoutType}
+              reset={reset}
+            />
+            <UserSelections
+              topic={"FITNESS LEVEL"}
+              setMessage={setMessage}
+              message={message}
+              topics={level}
+              reset={reset}
+            />
+            <UserSelections
+              topic={"MUSCLE GROUP"}
+              setMessage={setMessage}
+              message={message}
+              topics={muscle}
+              reset={reset}
+            />
+            <UserSelections
+              topic={"DURATION"}
+              setMessage={setMessage}
+              message={message}
+              topics={duration}
+              reset={reset}
+            />
+            <UserSelections
+              topic={"EQUIPMENT"}
+              setMessage={setMessage}
+              message={message}
+              topics={equipment}
+              reset={reset}
+            />
+
+            <UserSelections
+              topic={"INTENSITY"}
+              setMessage={setMessage}
+              message={message}
+              topics={intensity}
+              reset={reset}
+            />
+          </div>
+
+          {/* <button onClick={handleReset}>Reset</button> */}
+          <button onClick={handleSubmit} type="submit">
+            Get
+          </button>
+          <p>{message}</p>
+          {loading && (
+            <div>
+              <Loading />
+            </div>
+          )}
+          {result && <div className="result">{renderResult()}</div>}
+          {/* <GifDisplay message={message} /> */}
         </div>
-      )}
-      {/* <GifDisplay message={message} /> */}
-    </div>
+      </Parallax>
+    </ParallaxProvider>
   );
 }
 
