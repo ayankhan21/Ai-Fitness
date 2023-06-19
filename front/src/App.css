@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Alkatra&family=Bodoni+Moda:ital,wght@1,500&family=Roboto:wght@400;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@500&display=swap');
 @font-face {
   font-family: 'Ankh Sanctuary';
   src: url('./fonts/AnkhSanctuary-nROx4.ttf') format('opentype');
@@ -12,16 +13,24 @@ body {
   margin: 0;
   padding: 0;
 }
+span{
+  font-family: 'Unbounded', cursive;
+  color: #e0fe10;
+  font-size: larger;
+  word-spacing: 0.2cm;
+}
 .main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 80px;
   color: white;
+  margin-bottom: 10vh;
 }
 h1 {
   font-family: 'Ankh Sanctuary';
-  font-size: 8rem;
+  font-size: 9rem;
   text-transform: capitalize;
   color: #e0fe10;
   text-shadow: 4px 4px 4px rgb(23, 22, 22);
@@ -37,12 +46,18 @@ p {
 .text {
   width: 50vw;
 }
+.logo{
+  position: sticky;
+  top: 50px;
+  margin-left: -90vw;
+  
+}
 .intro {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
-  width: 98vw;
+
+  width: 99vw;
   height: 100vh;
   text-align: center;
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), #282a2c),
@@ -51,7 +66,7 @@ p {
   background-position: center;
   background-repeat: no-repeat;
 }
-.intro img{
+.intro img {
   width: 50px;
   height: 50px;
 }
@@ -63,9 +78,19 @@ p {
   justify-content: center;
 }
 .loadingIcons {
-  width: 200px; 
+  width: 200px;
   height: auto;
   image-rendering: auto;
+}
+.get{
+  width: 250px;
+  height: 75px;
+  border-radius: 20px;
+  font-family: 'Ankh Sanctuary';
+  font-size: 2rem;
+  text-transform: capitalize;
+  color: #e0fe10;
+  text-shadow: 4px 4px 4px rgb(23, 22, 22);
 }
 h2 {
   background-color: #e0fe10;
@@ -84,11 +109,17 @@ h2 {
 }
 .selections {
   display: grid;
-  gap: 30px;
+  grid-template-columns: repeat(2, 1fr); /* Two columns with equal width */
+}
+
+.MuiToggleButtonGroup-root{
+    background-color:white;
+    border:5px solid #e0fe10;
+    color: #282a2c;
 }
 .option {
   border-radius: 25px;
-  background-color: #e0fe10;
+  /* background-color: #e0fe10; */
 }
 .result {
   width: 65vw;

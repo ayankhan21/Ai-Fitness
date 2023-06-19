@@ -1,19 +1,18 @@
 import "./App.css";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import UserSelections from "./Components/UserSelections";
-import GifDisplay from "./Components/GifsDisplay";
-import Intro from "./Components/Intro";
-import Loading from "./Components/Loading";
+import React, { useState, lazy, Suspense } from "react";
+
 import "./App.css";
-import { ParallaxProvider } from "react-scroll-parallax";
-import { Parallax } from "react-scroll-parallax";
+
+const UserSelections = lazy(() => import("./Components/UserSelections"));
+const GifDisplay = lazy(() => import("./Components/GifsDisplay"));
+const Intro = lazy(() => import("./Components/Intro"));
+const Loading = lazy(() => import("./Components/Loading"));
 
 function App() {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState([]);
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(null);
-  const [reset, setReset] = useState(false);
   const level = ["Beginner", "Intermediate", "Advanced"];
   const muscle = ["CHEST", "BACK", "SHOULDERS", "LEGS", "ABS", "ARMS"];
   const duration = [
@@ -27,7 +26,6 @@ function App() {
     "Barbell",
     "Resistance Bands",
     "Kettle bell",
-    "Cable Machine",
     "Complete Gym",
   ];
   const workoutType = [
@@ -39,15 +37,9 @@ function App() {
   ];
   const intensity = ["Low intensity", "Medium intensity ", "High intensity"];
 
-  useEffect(() => {
-    console.log(message);
-  }, [message]);
-
-  const handleMessage = (e) => {
-    setMessage(e.target.value);
-  };
 
   const handleSubmit = async (event) => {
+    event.preventDefault();
     if (message === "") {
       setMessage("Please select a workout");
     } else {
@@ -66,9 +58,6 @@ function App() {
     }
   };
 
-  const handleReset = () => {
-    setReset(!reset);
-  };
 
   const startsWithNumber = (str) => {
     return /^\d/.test(str);
@@ -104,71 +93,61 @@ function App() {
   };
 
   return (
-    <ParallaxProvider>
-      <Parallax>
-        <div className="main">
-          <Intro />
-          <div className="selections">
-            <UserSelections
-              topic={"WORKOUT TYPE"}
-              setMessage={setMessage}
-              message={message}
-              topics={workoutType}
-              reset={reset}
-            />
-            <UserSelections
-              topic={"FITNESS LEVEL"}
-              setMessage={setMessage}
-              message={message}
-              topics={level}
-              reset={reset}
-            />
-            <UserSelections
-              topic={"MUSCLE GROUP"}
-              setMessage={setMessage}
-              message={message}
-              topics={muscle}
-              reset={reset}
-            />
-            <UserSelections
-              topic={"DURATION"}
-              setMessage={setMessage}
-              message={message}
-              topics={duration}
-              reset={reset}
-            />
-            <UserSelections
-              topic={"EQUIPMENT"}
-              setMessage={setMessage}
-              message={message}
-              topics={equipment}
-              reset={reset}
-            />
+    <div className="main">
+      <Suspense fallback={<div>Loading...</div>}>
+        <Intro />
+        {message && <p>{message}</p>}
+        <div className="selections">
+          <UserSelections
+            topic={"WORKOUT TYPE"}
+            setMessage={setMessage}
+            message={message}
+            topics={workoutType}
+          />
+          <UserSelections
+            topic={"FITNESS LEVEL"}
+            setMessage={setMessage}
+            message={message}
+            topics={level}
+          />
+          <UserSelections
+            topic={"MUSCLE GROUP"}
+            setMessage={setMessage}
+            message={message}
+            topics={muscle}
+          />
+          <UserSelections
+            topic={"DURATION"}
+            setMessage={setMessage}
+            message={message}
+            topics={duration}
+          />
+          <UserSelections
+            topic={"EQUIPMENT"}
+            setMessage={setMessage}
+            message={message}
+            topics={equipment}
+          />
 
-            <UserSelections
-              topic={"INTENSITY"}
-              setMessage={setMessage}
-              message={message}
-              topics={intensity}
-              reset={reset}
-            />
-          </div>
-
-          {/* <button onClick={handleReset}>Reset</button> */}
-          <button onClick={handleSubmit} type="submit">
-            Get
-          </button>
-          <p>{message}</p>
-          {loading && (
-            <div>
-              <Loading />
-            </div>
-          )}
-          {result && <div className="result">{renderResult()}</div>}
-          {/* <GifDisplay message={message} /> */}
+          <UserSelections
+            topic={"INTENSITY"}
+            setMessage={setMessage}
+            message={message}
+            topics={intensity}
+          />
         </div>
-      </Parallax>
-    </ParallaxProvider>
+        <button className="get" onClick={handleSubmit} type="button">
+          Generate
+        </button>
+        {loading && (
+          <div>
+            <Loading />
+          </div>
+        )}
+        {result && <div className="result">{renderResult()}</div>}
+        {/* <GifDisplay message={message} /> */}
+      </Suspense>
+    </div>
   );
 }
 

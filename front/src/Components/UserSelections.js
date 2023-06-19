@@ -2,19 +2,63 @@ import React, { useState, useEffect } from "react";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 function UserSelections({ message, setMessage, topic, topics }) {
-  const [selections, setSelections] = useState([]);
+  const [selections, setSelections] = useState([...topic]);
   const [formats, setFormats] = useState(["bold", "italic"]);
 
-  useEffect(() => {
-    setMessage(message + " " +  selections);
-  }, [selections]);
+
+  // const handleFormat = (event, newFormats) => {
+  //   setFormats(newFormats);
+
+  //   if (selections.includes(event.target.value)) {
+  //     setSelections((prevSelections) =>
+  //       prevSelections.filter((e) => e !== event.target.value)
+  //     );
+  //   } else {
+  //     setSelections((prevSelections) => [
+  //       topic,
+  //       ...prevSelections,
+  //       event.target.value,
+  //     ]);
+  //   }
+  // };
+  // useEffect(() => {
+  //   setMessage(...message,...selections);
+  // }, [selections]);
+
+  // const handleFormat = (event, newFormats) => {
+  //   setFormats(newFormats);
+
+  //   if (selections.includes(event.target.value)) {
+  //     setSelections((prevSelections) =>
+  //       prevSelections.filter((e) => e !== event.target.value)
+  //     );
+  //     // setMessage(message.replace(event.target.value, "").trim());
+  //     setMessage((prevMessage) => {
+  //       const updatedMessage = prevMessage
+  //         .split(" ")
+  //         .filter((value) => value !== event.target.value)
+  //         .join(" ");
+  //       return updatedMessage.trim();
+  //     });
+  //   } else {
+  //     setSelections((prevSelections) => [
+  //       topic,
+  //       ...prevSelections,
+  //       event.target.value,
+  //     ]);
+  //     setMessage(message + " " + event.target.value);
+  //   }
+  // };
 
   const handleFormat = (event, newFormats) => {
     setFormats(newFormats);
-
+  
     if (selections.includes(event.target.value)) {
       setSelections((prevSelections) =>
         prevSelections.filter((e) => e !== event.target.value)
+      );
+      setMessage((prevMessage) =>
+        prevMessage.filter((value) => value !== event.target.value)
       );
     } else {
       setSelections((prevSelections) => [
@@ -22,13 +66,13 @@ function UserSelections({ message, setMessage, topic, topics }) {
         ...prevSelections,
         event.target.value,
       ]);
+      setMessage((prevMessage) => [...prevMessage, event.target.value]);
     }
   };
+  
 
-  const handleReset = () => {
-    setSelections([]);
-    setFormats(["bold", "italic"]);
-  };
+  // Rest of your component code...
+
 
   return (
     <div className="options">
@@ -41,7 +85,12 @@ function UserSelections({ message, setMessage, topic, topics }) {
         className="selections"
       >
         {topics.map((e) => (
-          <ToggleButton className="option" key={e} value={e} aria-label="italic">
+          <ToggleButton
+            className="option"
+            key={e}
+            value={e}
+            aria-label="italic"
+          >
             {e}
           </ToggleButton>
         ))}

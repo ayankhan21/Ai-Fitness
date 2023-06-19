@@ -14,25 +14,42 @@ app.use(cors())
 
 console.log(key)
 const openai = new OpenAIApi(new Configuration({
-  apiKey:"",
+  apiKey:key,
 }))
 
-function chatGpt(userRequest) {
-  let result;
-  return new Promise((resolve, reject) => {
+// function chatGpt(userRequest) {
+//   let result;
+//   return new Promise((resolve, reject) => {
 
-    openai.createChatCompletion({
-          model:"gpt-3.5-turbo",
-          messages:[{role:"user", content:userRequest}]
-        }).then(res=>{
-          result = res.data.choices[0].message.content
-          console.log(result)
-          resolve(result);
-        }).finally(()=>{
-          console.log("byee")
-        })
-  });
+//     openai.createChatCompletion({
+//           model:"gpt-3.5-turbo",
+//           messages:[{role:"user", content:userRequest}]
+//         }).then(res=>{
+//           result = res.data.choices[0].message.content
+//           // console.log(result)
+//           resolve(result);
+//         }).finally(()=>{
+//           console.log("byee")
+//         })
+//   });
+// }
+
+async function chatGpt(userRequest) {
+  try {
+    const res = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: userRequest }],
+    });
+
+    const result = res.data.choices[0].message.content;
+    return result;
+  } catch (error) {
+    throw error;
+  } finally {
+    console.log("byee");
+  }
 }
+
 
 
 app.post('/', async (req, res) => {
